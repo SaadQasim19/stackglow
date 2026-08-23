@@ -8,8 +8,8 @@ const DEFAULT_ICONS = [
   { id: "hardhat", name: "Hardhat" },
   { id: "mongodb", name: "MongoDB" },
   { id: "nestjs", name: "NestJS" },
-  { id: "sun", name: "Sun" },
-  { id: "moon", name: "Moon" },
+  { id: "react", name: "React" },
+  { id: "typescript", name: "TypeScript" },
 ];
 
 function ClipboardIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
@@ -73,11 +73,11 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"all-icons" | "guide">("all-icons");
   const [selectedQueue, setSelectedQueue] = useState<string[]>([
     "react",
-    "nextjs",
     "typescript",
     "nodejs",
     "rust",
     "docker",
+    "aws",
   ]);
 
   // Combined Badge Customization Controls
@@ -120,7 +120,13 @@ export default function Home() {
     );
   }, [iconsList, searchQuery]);
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://stackglow.dev";
+  const [origin, setOrigin] = useState<string>("https://stackglow.dev");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setOrigin(window.location.origin);
+    }
+  }, []);
 
   const toggleIcon = (id: string) => {
     if (selectedQueue.includes(id)) {
@@ -144,15 +150,18 @@ export default function Home() {
   };
 
   // Generate Combined Badge URL and Snippets
-  const combinedBadgeUrl = useMemo(() => {
+  const badgeQueryParams = useMemo(() => {
     if (selectedQueue.length === 0) return "";
     const params = new URLSearchParams();
     params.set("i", selectedQueue.join(","));
     if (iconsPerLine !== 10) params.set("perline", iconsPerLine.toString());
     if (badgeTheme !== "dark") params.set("theme", badgeTheme);
     if (iconSize !== 64) params.set("size", iconSize.toString());
-    return `${origin}/api/icons?${params.toString()}`;
-  }, [origin, selectedQueue, iconsPerLine, badgeTheme, iconSize]);
+    return params.toString();
+  }, [selectedQueue, iconsPerLine, badgeTheme, iconSize]);
+
+  const combinedBadgePreviewUrl = badgeQueryParams ? `/api/icons?${badgeQueryParams}` : "";
+  const combinedBadgeUrl = badgeQueryParams ? `${origin}/api/icons?${badgeQueryParams}` : "";
 
   // Generate Snippet text based on format & mode
   const generatedSnippet = useMemo(() => {
@@ -544,8 +553,8 @@ export default function Home() {
                     {badgeMode === "combined" ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
-                        key={combinedBadgeUrl}
-                        src={combinedBadgeUrl}
+                        key={combinedBadgePreviewUrl}
+                        src={combinedBadgePreviewUrl}
                         alt={badgeAlt || "Tech Stack"}
                         className="max-w-full h-auto drop-shadow-md rounded-lg transition-all duration-200"
                       />
@@ -627,7 +636,7 @@ export default function Home() {
                       <div className="flex items-center gap-2.5 ml-auto">
                         {badgeMode === "combined" && (
                           <a
-                            href={combinedBadgeUrl}
+                            href={combinedBadgePreviewUrl || "/api/icons"}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-[11px] text-neutral-400 hover:text-cyan-400 flex items-center gap-1 transition-colors px-2 py-1 rounded hover:bg-neutral-800/50"
@@ -714,7 +723,7 @@ export default function Home() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search 47+ icons..."
+                  placeholder={`Search ${iconsList.length}+ icons...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className={`border rounded-lg px-3.5 py-2 text-xs font-mono focus:outline-none w-full sm:w-64 ${
@@ -821,7 +830,7 @@ export default function Home() {
                       : "bg-neutral-100 text-neutral-800"
                   }`}
                 >
-                  {`## 🛠️ My Tech Stack\n\n![Tech Stack](${origin}/api/icons?i=react,nextjs,typescript,nodejs,docker,rust&perline=6&theme=dark&size=48)`}
+                  {`## 🛠️ My Tech Stack\n\n![Tech Stack](${origin}/api/icons?i=react,typescript,nodejs,docker,rust,aws&perline=6&theme=dark&size=48)`}
                 </pre>
               </div>
 
@@ -837,7 +846,7 @@ export default function Home() {
                       : "bg-neutral-100 text-neutral-800"
                   }`}
                 >
-                  {`## 🛠️ Tech Stack\n\n![React](${origin}/api/icons?i=react) ![Next.js](${origin}/api/icons?i=nextjs) ![TypeScript](${origin}/api/icons?i=typescript)`}
+                  {`## 🛠️ Tech Stack\n\n![React](${origin}/api/icons?i=react) ![TypeScript](${origin}/api/icons?i=typescript) ![AWS](${origin}/api/icons?i=aws)`}
                 </pre>
               </div>
 
@@ -858,7 +867,7 @@ export default function Home() {
                         <td className="py-2 pr-4 text-cyan-400 font-bold">i</td>
                         <td className="py-2 pr-4">string</td>
                         <td className="py-2 pr-4">required</td>
-                        <td className="py-2">Comma-separated icon slugs (e.g. `react,next,ts,rust`)</td>
+                        <td className="py-2">Comma-separated icon slugs (e.g. `react,ts,rust,aws`)</td>
                       </tr>
                       <tr>
                         <td className="py-2 pr-4 text-cyan-400 font-bold">perline</td>

@@ -20,8 +20,6 @@ export async function GET() {
       hardhat: "Hardhat",
       mongodb: "MongoDB",
       nestjs: "NestJS",
-      sun: "Sun",
-      moon: "Moon",
       html5: "HTML5",
       css: "CSS3",
       java: "Java",
@@ -36,7 +34,6 @@ export async function GET() {
       openai: "OpenAI",
       kubernetes: "Kubernetes",
       linux: "Linux",
-      nextjs: "Next.js",
       redis: "Redis",
       django: "Django",
       "django-icon": "Django",
@@ -66,6 +63,40 @@ export async function GET() {
       solidity: "Solidity",
       ethereum: "Ethereum",
       leetcode: "LeetCode",
+      aws: "AWS",
+      git: "Git",
+      go: "Go",
+      golang: "Go",
+      google: "Google",
+      cloudflare: "Cloudflare",
+      matlab: "MATLAB",
+      maven: "Maven",
+      openstack: "OpenStack",
+      rabbitmq: "RabbitMQ",
+      sass: "Sass",
+      scss: "Sass",
+      blender: "Blender",
+      ember: "Ember.js",
+      emberjs: "Ember.js",
+      "ember-tomster": "Ember.js",
+      redhat: "Red Hat",
+      "redhat-icon": "Red Hat",
+      jenkins: "Jenkins",
+      ocaml: "OCaml",
+      replit: "Replit",
+      swift: "Swift",
+      fediverse: "Fediverse",
+      ableton: "Ableton",
+      arch: "Arch Linux",
+      archlinux: "Arch Linux",
+      "arch-linux": "Arch Linux",
+      emotion: "Emotion",
+      jquery: "jQuery",
+      latex: "LaTeX",
+      misskey: "Misskey",
+      bevy: "Bevy",
+      azure: "Azure",
+      "file-type-azure": "Azure",
     };
 
     const iconsList: { id: string; name: string }[] = [];
@@ -75,15 +106,23 @@ export async function GET() {
       const baseName = file.replace(/\.svg$/i, "");
       const lowerBase = baseName.toLowerCase();
 
-      // Extract clean ID by stripping common prefixes/suffixes
-      let cleanId = lowerBase.replace(/^.*--/, "").replace(/-svgrepo-com$/, "");
-
-      // Check if there is an explicit alias pointing to this file
+      // Check if there is an explicit alias pointing to this file first
+      let cleanId = "";
       for (const [aliasKey, targetFile] of Object.entries(ICON_ALIASES)) {
         if (targetFile.toLowerCase() === lowerBase) {
           cleanId = aliasKey;
           break;
         }
+      }
+
+      // If no explicit alias, extract clean ID by stripping prefixes/suffixes
+      if (!cleanId) {
+        cleanId = lowerBase
+          .replace(/^.*--/, "")
+          .replace(/^file-type-/, "")
+          .replace(/-svgrepo-com$/, "")
+          .replace(/-(light|dark)$/, "")
+          .replace(/-icon$/, "");
       }
 
       if (!processedIds.has(cleanId)) {

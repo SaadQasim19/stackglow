@@ -128,12 +128,14 @@ export async function GET(req: NextRequest) {
       .replace(/<rect[^>]*height=["']100%["'][^>]*\/>/gi, "")
       .replace(/<rect[^>]*width=["']100%["'][^>]*>.*?<\/rect>/gi, "");
 
-    // 3. Resolve dynamic fills for dark/light themes (Sun, Moon, currentColor & dark fills)
+    // 3. Resolve dynamic fills for dark/light themes (currentColor & dark fills)
     if (theme === "dark") {
       cleanSvg = cleanSvg
         .replace(/fill=["']currentColor["']/gi, `fill="${iconFillColor}"`)
         .replace(/fill=["']#000000["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#000["']/gi, `fill="${iconFillColor}"`);
+        .replace(/fill=["']#000["']/gi, `fill="${iconFillColor}"`)
+        .replace(/fill=["']#222f3e["']/gi, `fill="${iconFillColor}"`)
+        .replace(/fill=["']#232f3e["']/gi, `fill="${iconFillColor}"`);
     } else {
       cleanSvg = cleanSvg
         .replace(/fill=["']currentColor["']/gi, `fill="${iconFillColor}"`)
