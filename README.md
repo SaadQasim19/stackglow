@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=6" height="70" alt="StackGlow Tech Stack" />
+  <h1>StackGlow</h1>
+  <p><strong>Dynamic, High-Performance Tech Stack Badges for GitHub Profile READMEs</strong></p>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+## ⚡ Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**StackGlow** is a fast, lightweight SVG icon generator designed for developer documentation and GitHub profile READMEs. Generate cohesive multi-icon grid badges or individual shield badges with zero latency and full theme customization.
+
+- 🎨 **Unified SVG Grid Badges:** Combine multiple tools into a single sleek card.
+- 🌓 **Dynamic Theme Adaptation:** Dark (`#0d1117`) and Light (`#ffffff`) background modes with automatic fill contrast adjustment.
+- 📐 **Customizable Layouts:** Configurable icons-per-line (`perline`), icon dimensions (`size`, default `70`), and alt descriptions.
+- 🚀 **Zero Dependencies & High Cacheability:** Serves raw SVG directly with immutable caching headers.
+
+---
+
+## 🛠️ Usage in GitHub README
+
+### 1. Combined Multi-Icon Badge (Recommended)
+
+Embed a unified tech stack badge with custom height and layout:
+
+```html
+<div align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=6" height="70" alt="Tech Stack" />
+</div>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Or using Markdown:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```markdown
+![Tech Stack](https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=6&size=70)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 2. Individual Shields
 
-To learn more about Next.js, take a look at the following resources:
+Embed individual standalone technology badges:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```html
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=react&theme=dark" height="70" alt="React" />
+  <img src="https://stackglow.vercel.app/api/icons?i=typescript&theme=dark" height="70" alt="TypeScript" />
+  <img src="https://stackglow.vercel.app/api/icons?i=aws&theme=dark" height="70" alt="AWS" />
+</p>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📖 API Query Parameters
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `i` | `string` | **Required** | Comma-separated icon slugs (e.g. `javascript,typescript,react,nextjs`) |
+| `perline` | `number` | `10` | Number of icons per row before wrapping to a new line |
+| `theme` | `"dark" \| "light"` | `"dark"` | Background and fill color scheme (`dark` or `light`) |
+| `size` | `number` | `70` | Icon dimensions in pixels (between `16` and `256`, default `70`) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 💻 Local Development
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/SaadQasim19/stackglow.git
+   cd stackglow
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).

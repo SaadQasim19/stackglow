@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const iconSize = Math.max(16, Math.min(256, parseInt(searchParams.get("size") || "64", 10)));
+  const iconSize = Math.max(16, Math.min(256, parseInt(searchParams.get("size") || "70", 10)));
   const gap = 14;
   const padding = 18;
 

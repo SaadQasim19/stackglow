@@ -84,7 +84,7 @@ export default function Home() {
   const [badgeMode, setBadgeMode] = useState<"combined" | "individual">("combined");
   const [badgeTheme, setBadgeTheme] = useState<"dark" | "light">("dark");
   const [iconsPerLine, setIconsPerLine] = useState<number>(6);
-  const [iconSize, setIconSize] = useState<number>(48);
+  const [iconSize, setIconSize] = useState<number>(70);
   const [badgeAlt, setBadgeAlt] = useState<string>("My Tech Stack");
   const [snippetFormat, setSnippetFormat] = useState<"markdown" | "html" | "url">("markdown");
   const [copiedSnippet, setCopiedSnippet] = useState(false);
@@ -120,7 +120,7 @@ export default function Home() {
     );
   }, [iconsList, searchQuery]);
 
-  const [origin, setOrigin] = useState<string>("https://stackglow.dev");
+  const [origin, setOrigin] = useState<string>("https://stackglow.vercel.app");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -156,7 +156,7 @@ export default function Home() {
     params.set("i", selectedQueue.join(","));
     if (iconsPerLine !== 10) params.set("perline", iconsPerLine.toString());
     if (badgeTheme !== "dark") params.set("theme", badgeTheme);
-    if (iconSize !== 64) params.set("size", iconSize.toString());
+    if (iconSize !== 70) params.set("size", iconSize.toString());
     return params.toString();
   }, [selectedQueue, iconsPerLine, badgeTheme, iconSize]);
 
@@ -171,7 +171,7 @@ export default function Home() {
       if (snippetFormat === "markdown") {
         return `![${badgeAlt || "Tech Stack"}](${combinedBadgeUrl})`;
       } else if (snippetFormat === "html") {
-        return `<img src="${combinedBadgeUrl}" alt="${badgeAlt || "Tech Stack"}" />`;
+        return `<img src="${combinedBadgeUrl}" height="${iconSize}" alt="${badgeAlt || "Tech Stack"}" />`;
       } else {
         return combinedBadgeUrl;
       }
@@ -183,7 +183,7 @@ export default function Home() {
           .join(" ");
       } else if (snippetFormat === "html") {
         return selectedQueue
-          .map((id) => `<img src="${origin}/api/icons?i=${id}&theme=${badgeTheme}&size=${iconSize}" alt="${id}" />`)
+          .map((id) => `<img src="${origin}/api/icons?i=${id}&theme=${badgeTheme}&size=${iconSize}" height="${iconSize}" alt="${id}" />`)
           .join("\n");
       } else {
         return selectedQueue
@@ -449,37 +449,37 @@ export default function Home() {
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <label className="text-neutral-400 font-semibold uppercase tracking-wider">
-                        Icon Size
+                        Icon Size / Height
                       </label>
                       <span className="text-cyan-500 font-bold">{iconSize}px</span>
                     </div>
                     <input
                       type="range"
                       min="24"
-                      max="96"
-                      step="4"
+                      max="120"
+                      step="2"
                       value={iconSize}
                       onChange={(e) => setIconSize(parseInt(e.target.value, 10))}
                       className="w-full accent-cyan-500 cursor-pointer"
                     />
                     <div className="flex justify-between text-[10px] text-neutral-500 font-mono pt-0.5">
                       <button
-                        onClick={() => setIconSize(32)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
-                      >
-                        32px
-                      </button>
-                      <button
                         onClick={() => setIconSize(48)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconSize === 48 ? "text-cyan-400 font-bold" : ""}`}
                       >
                         48px
                       </button>
                       <button
-                        onClick={() => setIconSize(64)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
+                        onClick={() => setIconSize(70)}
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconSize === 70 ? "text-cyan-400 font-bold" : ""}`}
                       >
-                        64px
+                        70px (Default)
+                      </button>
+                      <button
+                        onClick={() => setIconSize(96)}
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconSize === 96 ? "text-cyan-400 font-bold" : ""}`}
+                      >
+                        96px
                       </button>
                     </div>
                   </div>
@@ -830,7 +830,7 @@ export default function Home() {
                       : "bg-neutral-100 text-neutral-800"
                   }`}
                 >
-                  {`## 🛠️ My Tech Stack\n\n![Tech Stack](${origin}/api/icons?i=react,typescript,nodejs,docker,rust,aws&perline=6&theme=dark&size=48)`}
+                  {`<div align="center">\n  <img src="https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=6" height="70" alt="Tech Stack" />\n</div>`}
                 </pre>
               </div>
 
@@ -846,7 +846,7 @@ export default function Home() {
                       : "bg-neutral-100 text-neutral-800"
                   }`}
                 >
-                  {`## 🛠️ Tech Stack\n\n![React](${origin}/api/icons?i=react) ![TypeScript](${origin}/api/icons?i=typescript) ![AWS](${origin}/api/icons?i=aws)`}
+                  {`<p align="center">\n  <img src="https://stackglow.vercel.app/api/icons?i=react&theme=dark" height="70" alt="React" />\n  <img src="https://stackglow.vercel.app/api/icons?i=typescript&theme=dark" height="70" alt="TypeScript" />\n  <img src="https://stackglow.vercel.app/api/icons?i=aws&theme=dark" height="70" alt="AWS" />\n</p>`}
                 </pre>
               </div>
 
@@ -867,7 +867,7 @@ export default function Home() {
                         <td className="py-2 pr-4 text-cyan-400 font-bold">i</td>
                         <td className="py-2 pr-4">string</td>
                         <td className="py-2 pr-4">required</td>
-                        <td className="py-2">Comma-separated icon slugs (e.g. `react,ts,rust,aws`)</td>
+                        <td className="py-2">Comma-separated icon slugs (e.g. `javascript,typescript,react,nextjs`)</td>
                       </tr>
                       <tr>
                         <td className="py-2 pr-4 text-cyan-400 font-bold">perline</td>
@@ -884,8 +884,8 @@ export default function Home() {
                       <tr>
                         <td className="py-2 pr-4 text-cyan-400 font-bold">size</td>
                         <td className="py-2 pr-4">number</td>
-                        <td className="py-2 pr-4">64</td>
-                        <td className="py-2">Icon dimensions in pixels (between 16 and 256)</td>
+                        <td className="py-2 pr-4">70</td>
+                        <td className="py-2">Icon dimensions in pixels (between 16 and 256, default 70)</td>
                       </tr>
                     </tbody>
                   </table>
