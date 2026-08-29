@@ -3,6 +3,8 @@ import fs from "fs";
 import path from "path";
 import { ICON_ALIASES } from "@/config/aliases";
 
+export const dynamic = "force-dynamic";
+
 const ICON_DIR = path.join(process.cwd(), "icons");
 
 export async function GET() {

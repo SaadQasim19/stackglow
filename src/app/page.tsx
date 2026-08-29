@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useSyncExternalStore } from "react";
 import Navbar from "@/components/Navbar";
 
 const DEFAULT_ICONS = [
@@ -120,13 +120,11 @@ export default function Home() {
     );
   }, [iconsList, searchQuery]);
 
-  const [origin, setOrigin] = useState<string>("https://stackglow.vercel.app");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setOrigin(window.location.origin);
-    }
-  }, []);
+  const origin = useSyncExternalStore(
+    () => () => {},
+    () => window.location.origin,
+    () => "https://stackglow.vercel.app"
+  );
 
   const toggleIcon = (id: string) => {
     if (selectedQueue.includes(id)) {
