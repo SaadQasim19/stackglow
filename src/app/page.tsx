@@ -83,7 +83,7 @@ export default function Home() {
   // Combined Badge Customization Controls
   const [badgeMode, setBadgeMode] = useState<"combined" | "individual">("combined");
   const [badgeTheme, setBadgeTheme] = useState<"dark" | "light">("dark");
-  const [iconsPerLine, setIconsPerLine] = useState<number>(6);
+  const [iconsPerLine, setIconsPerLine] = useState<number>(12);
   const [iconSize, setIconSize] = useState<number>(70);
   const [badgeAlt, setBadgeAlt] = useState<string>("My Tech Stack");
   const [snippetFormat, setSnippetFormat] = useState<"markdown" | "html" | "url">("markdown");
@@ -154,7 +154,7 @@ export default function Home() {
     if (selectedQueue.length === 0) return "";
     const params = new URLSearchParams();
     params.set("i", selectedQueue.join(","));
-    if (iconsPerLine !== 10) params.set("perline", iconsPerLine.toString());
+    if (iconsPerLine !== 12) params.set("perline", iconsPerLine.toString());
     if (badgeTheme !== "dark") params.set("theme", badgeTheme);
     if (iconSize !== 70) params.set("size", iconSize.toString());
     return params.toString();
@@ -404,14 +404,14 @@ export default function Home() {
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <label className="text-neutral-400 font-semibold uppercase tracking-wider">
-                        Icons Per Row
+                        Icons Per Row (Max Width)
                       </label>
                       <span className="text-cyan-500 font-bold">{iconsPerLine}</span>
                     </div>
                     <input
                       type="range"
                       min="1"
-                      max="15"
+                      max="24"
                       disabled={badgeMode === "individual"}
                       value={iconsPerLine}
                       onChange={(e) => setIconsPerLine(parseInt(e.target.value, 10))}
@@ -419,28 +419,28 @@ export default function Home() {
                     />
                     <div className="flex justify-between text-[10px] text-neutral-500 font-mono pt-0.5">
                       <button
-                        onClick={() => setIconsPerLine(4)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
-                      >
-                        4/row
-                      </button>
-                      <button
                         onClick={() => setIconsPerLine(6)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconsPerLine === 6 ? "text-cyan-400 font-bold" : ""}`}
                       >
                         6/row
                       </button>
                       <button
                         onClick={() => setIconsPerLine(8)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconsPerLine === 8 ? "text-cyan-400 font-bold" : ""}`}
                       >
                         8/row
                       </button>
                       <button
-                        onClick={() => setIconsPerLine(10)}
-                        className="hover:text-cyan-400 underline cursor-pointer"
+                        onClick={() => setIconsPerLine(12)}
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconsPerLine === 12 ? "text-cyan-400 font-bold" : ""}`}
                       >
-                        10/row
+                        12/row (Default)
+                      </button>
+                      <button
+                        onClick={() => setIconsPerLine(16)}
+                        className={`hover:text-cyan-400 underline cursor-pointer ${iconsPerLine === 16 ? "text-cyan-400 font-bold" : ""}`}
+                      >
+                        16/row
                       </button>
                     </div>
                   </div>
@@ -830,7 +830,7 @@ export default function Home() {
                       : "bg-neutral-100 text-neutral-800"
                   }`}
                 >
-                  {`<div align="center">\n  <img src="https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=6" height="70" alt="Tech Stack" />\n</div>`}
+                  {`<div align="center">\n  <img src="https://stackglow.vercel.app/api/icons?i=javascript,typescript,react,nextjs&theme=dark&perline=12" height="70" alt="Tech Stack" />\n</div>`}
                 </pre>
               </div>
 
@@ -872,8 +872,8 @@ export default function Home() {
                       <tr>
                         <td className="py-2 pr-4 text-cyan-400 font-bold">perline</td>
                         <td className="py-2 pr-4">number</td>
-                        <td className="py-2 pr-4">10</td>
-                        <td className="py-2">Number of icons per row before wrapping to a new line</td>
+                        <td className="py-2 pr-4">12</td>
+                        <td className="py-2">Number of icons per row before wrapping to a new line (default 12)</td>
                       </tr>
                       <tr>
                         <td className="py-2 pr-4 text-cyan-400 font-bold">theme</td>

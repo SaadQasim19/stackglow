@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
 
   const rawIcons = searchParams.get("i") || "";
   const iconNames = rawIcons.split(",").map((s) => s.trim()).filter(Boolean);
-  const perLine = parseInt(searchParams.get("perline") || "10", 10);
+  const perLine = Math.max(1, parseInt(searchParams.get("perline") || "12", 10));
   const theme = searchParams.get("theme") || "dark";
 
   if (iconNames.length === 0) {
