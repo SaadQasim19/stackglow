@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "stackglow",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
