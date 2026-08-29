@@ -3,6 +3,8 @@ import fs from "fs";
 import path from "path";
 import { resolveIconName } from "@/config/aliases";
 
+export const dynamic = "force-dynamic";
+
 const ICON_DIR = path.join(process.cwd(), "icons");
 
 function getLocalIconSvg(name: string): string | null {
@@ -31,7 +33,13 @@ function getLocalIconSvg(name: string): string | null {
         base === cleanName ||
         base === canonicalName.toLowerCase() ||
         base.endsWith(`--${cleanName}`) ||
-        base.endsWith(`--${canonicalName.toLowerCase()}`)
+        base.endsWith(`--${canonicalName.toLowerCase()}`) ||
+        base.endsWith(`--${cleanName}-light`) ||
+        base.endsWith(`--${cleanName}-dark`) ||
+        base.endsWith(`--${cleanName}-icon`) ||
+        base.endsWith(`--${canonicalName.toLowerCase()}-light`) ||
+        base.endsWith(`--${canonicalName.toLowerCase()}-dark`) ||
+        base.endsWith(`--${canonicalName.toLowerCase()}-icon`)
       );
     });
 
