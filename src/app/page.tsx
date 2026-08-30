@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useSyncExternalStore } from "react";
 import Navbar from "@/components/Navbar";
+import { escapeHtmlAttr } from "@/lib/security";
 
 const DEFAULT_ICONS = [
   { id: "gdg", name: "GDG Logo" },
@@ -169,7 +170,7 @@ export default function Home() {
       if (snippetFormat === "markdown") {
         return `![${badgeAlt || "Tech Stack"}](${combinedBadgeUrl})`;
       } else if (snippetFormat === "html") {
-        return `<img src="${combinedBadgeUrl}" height="${iconSize}" alt="${badgeAlt || "Tech Stack"}" />`;
+        return `<img src="${combinedBadgeUrl}" height="${iconSize}" alt="${escapeHtmlAttr(badgeAlt || "Tech Stack")}" />`;
       } else {
         return combinedBadgeUrl;
       }
@@ -181,7 +182,7 @@ export default function Home() {
           .join(" ");
       } else if (snippetFormat === "html") {
         return selectedQueue
-          .map((id) => `<img src="${origin}/api/icons?i=${id}&theme=${badgeTheme}&size=${iconSize}" height="${iconSize}" alt="${id}" />`)
+          .map((id) => `<img src="${origin}/api/icons?i=${id}&theme=${badgeTheme}&size=${iconSize}" height="${iconSize}" alt="${escapeHtmlAttr(id)}" />`)
           .join("\n");
       } else {
         return selectedQueue
