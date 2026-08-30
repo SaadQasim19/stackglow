@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.2.1...stackglow-v0.3.0) (2026-08-30)
+
+
+### Features
+
+* **security:** implement multi-layer security architecture (path traversal defense, SVG XSS sanitizer, rate limiting, and CSP headers) ([f5f8c39](https://github.com/SaadQasim19/stackglow/commit/f5f8c395a1f3a0552d698ff210dc2697d1676632))
+* **security:** implement multi-layer security architecture (path traversal defense, SVG XSS sanitizer, rate limiting, and CSP headers) ([ff69c32](https://github.com/SaadQasim19/stackglow/commit/ff69c329f6d8f7b610a399ad37737e079e820db6))
+
 ## [0.2.1](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.2.0...stackglow-v0.2.1) (2026-08-29)
 
 
