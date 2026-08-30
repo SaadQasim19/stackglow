@@ -1,16 +1,41 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { ICON_ALIASES } from "@/config/aliases";
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 export const dynamic = "force-dynamic";
 
 const ICON_DIR = path.join(process.cwd(), "icons");
 
-export async function GET() {
+const LIST_SECURITY_HEADERS = {
+  "Content-Type": "application/json; charset=utf-8",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+  "Cache-Control": "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400",
+};
+
+export async function GET(req: NextRequest) {
+  const rateLimit = checkRateLimit(req, 180, 60 * 1000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Too Many Requests" },
+      {
+        status: 429,
+        headers: {
+          ...LIST_SECURITY_HEADERS,
+          "Retry-After": rateLimit.reset.toString(),
+        },
+      }
+    );
+  }
+
   try {
     if (!fs.existsSync(ICON_DIR)) {
-      return NextResponse.json([]);
+      return NextResponse.json([], { headers: LIST_SECURITY_HEADERS });
     }
 
     const files = fs.readdirSync(ICON_DIR);
@@ -220,9 +245,16 @@ export async function GET() {
 
     iconsList.sort((a, b) => a.name.localeCompare(b.name));
 
-    return NextResponse.json(iconsList);
+    return NextResponse.json(iconsList, { headers: LIST_SECURITY_HEADERS });
   } catch (error) {
     console.error("Error listing icons:", error);
-    return NextResponse.json([]);
+    return NextResponse.json([], { headers: LIST_SECURITY_HEADERS });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: LIST_SECURITY_HEADERS,
+  });
 }

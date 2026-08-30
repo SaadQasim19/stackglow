@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { resolveIconName } from "@/config/aliases";
+import {
+  isValidIconSlug,
+  isPathSafe,
+  sanitizeNumericParam,
+  sanitizeEnumParam,
+} from "@/lib/security";
+import { sanitizeSvgContent } from "@/lib/svg-sanitizer";
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 export const dynamic = "force-dynamic";
 
@@ -9,21 +17,30 @@ const ICON_DIR = path.join(process.cwd(), "icons");
 
 function getLocalIconSvg(name: string): string | null {
   const cleanName = name.trim().toLowerCase();
-  const canonicalName = resolveIconName(cleanName);
 
-  // 1. Direct match with canonical alias or exact name
+  // 1. Validate slug safety (reject directory traversal, null bytes, etc.)
+  if (!isValidIconSlug(cleanName)) {
+    return null;
+  }
+
+  const canonicalName = resolveIconName(cleanName);
+  if (!isValidIconSlug(canonicalName)) {
+    return null;
+  }
+
+  // 2. Direct match with canonical alias or exact name
   const exactPath = path.join(ICON_DIR, `${canonicalName}.svg`);
-  if (fs.existsSync(exactPath)) {
+  if (isPathSafe(exactPath, ICON_DIR) && fs.existsSync(exactPath)) {
     return fs.readFileSync(exactPath, "utf-8");
   }
 
-  // 2. Direct match with raw name
+  // 3. Direct match with raw name
   const rawPath = path.join(ICON_DIR, `${cleanName}.svg`);
-  if (fs.existsSync(rawPath)) {
+  if (isPathSafe(rawPath, ICON_DIR) && fs.existsSync(rawPath)) {
     return fs.readFileSync(rawPath, "utf-8");
   }
 
-  // 3. Fallback scan for prefixed files (e.g. "java" -> "devicon--java.svg", "python" -> "material-icon-theme--python.svg")
+  // 4. Fallback scan for prefixed files (e.g. "java" -> "devicon--java.svg")
   if (fs.existsSync(ICON_DIR)) {
     const files = fs.readdirSync(ICON_DIR);
     const match = files.find((file) => {
@@ -44,51 +61,96 @@ function getLocalIconSvg(name: string): string | null {
     });
 
     if (match) {
-      return fs.readFileSync(path.join(ICON_DIR, match), "utf-8");
+      const matchPath = path.join(ICON_DIR, match);
+      if (isPathSafe(matchPath, ICON_DIR) && fs.existsSync(matchPath)) {
+        return fs.readFileSync(matchPath, "utf-8");
+      }
     }
   }
 
   return null;
 }
 
+const SECURITY_HEADERS = {
+  "Content-Type": "image/svg+xml; charset=utf-8",
+  "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+  "Cache-Control": "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400",
+  "Vary": "Accept-Encoding",
+};
+
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-
-  const rawIcons = searchParams.get("i") || "";
-  const iconNames = rawIcons.split(",").map((s) => s.trim()).filter(Boolean);
-  const perLine = Math.max(1, parseInt(searchParams.get("perline") || "12", 10));
-  const theme = searchParams.get("theme") || "dark";
-
-  if (iconNames.length === 0) {
+  // 1. Rate Limiting Protection (DoS / Scraping defense)
+  const rateLimit = checkRateLimit(req, 180, 60 * 1000);
+  if (!rateLimit.allowed) {
     return new NextResponse(
-      "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='50'><text x='10' y='30' fill='red'>Error: No icons provided (?i=...)</text></svg>",
+      `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="60" viewBox="0 0 320 60"><rect width="100%" height="100%" rx="8" fill="#1e1e2e"/><text x="16" y="36" fill="#f38ba8" font-family="monospace" font-size="13">429: Too Many Requests (Rate Limited)</text></svg>`,
       {
-        status: 400,
-        headers: { "Content-Type": "image/svg+xml" },
+        status: 429,
+        headers: {
+          ...SECURITY_HEADERS,
+          "Retry-After": rateLimit.reset.toString(),
+          "X-RateLimit-Limit": "180",
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": rateLimit.reset.toString(),
+        },
       }
     );
   }
 
-  const iconSize = Math.max(16, Math.min(256, parseInt(searchParams.get("size") || "70", 10)));
+  // 2. URI Length Validation (Buffer Overflow / ReDoS defense)
+  if (req.url.length > 4096) {
+    return new NextResponse(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="260" height="50"><text x="10" y="30" fill="red" font-family="monospace">414: URI Too Long</text></svg>`,
+      { status: 414, headers: SECURITY_HEADERS }
+    );
+  }
+
+  const { searchParams } = new URL(req.url);
+
+  // 3. Input Sanitization & Bounds Checking
+  const rawIcons = searchParams.get("i") || "";
+  const iconNames = rawIcons
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 50); // Hard cap at maximum 50 icons per combined badge
+
+  if (iconNames.length === 0) {
+    return new NextResponse(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="50"><text x="10" y="30" fill="red" font-family="monospace">Error: No icons provided (?i=...)</text></svg>`,
+      { status: 400, headers: SECURITY_HEADERS }
+    );
+  }
+
+  const perLine = sanitizeNumericParam(searchParams.get("perline"), 12, 1, 30);
+  const iconSize = sanitizeNumericParam(searchParams.get("size"), 70, 16, 256);
+  const theme = sanitizeEnumParam(searchParams.get("theme"), "dark", ["dark", "light"] as const);
+
   const gap = 14;
   const padding = 18;
 
-  // Load requested icons from disk
+  // 4. Safe Icon Resolution from Disk
   const loadedIcons: { svg: string; name: string }[] = [];
   for (const name of iconNames) {
-    const svg = getLocalIconSvg(name);
-    if (svg) {
-      loadedIcons.push({ svg, name });
+    const rawSvg = getLocalIconSvg(name);
+    if (rawSvg) {
+      // 5. Multi-Pass SVG Sanitization (Strips XSS, XXE, <script>, and malicious protocols)
+      const sanitized = sanitizeSvgContent(rawSvg);
+      if (sanitized) {
+        loadedIcons.push({ svg: sanitized, name });
+      }
     }
   }
 
   if (loadedIcons.length === 0) {
     return new NextResponse(
-      "<svg xmlns='http://www.w3.org/2000/svg' width='250' height='50'><text x='10' y='30' fill='red'>Error: None of the requested icons exist</text></svg>",
-      {
-        status: 404,
-        headers: { "Content-Type": "image/svg+xml" },
-      }
+      `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="50"><text x="10" y="30" fill="red" font-family="monospace">Error: None of requested icons exist</text></svg>`,
+      { status: 404, headers: SECURITY_HEADERS }
     );
   }
 
@@ -109,7 +171,7 @@ export async function GET(req: NextRequest) {
     const x = padding + col * (iconSize + gap);
     const y = padding + row * (iconSize + gap);
 
-    // 1. Dynamic viewBox extraction (with width/height attributes fallback)
+    // Dynamic viewBox extraction
     let viewBox = "0 0 24 24";
     const viewBoxMatch = svg.match(/viewBox=["']([^"']+)["']/i);
     if (viewBoxMatch && viewBoxMatch[1]) {
@@ -122,37 +184,23 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // 2. Clean XML headers, comments, outer <svg> wrappers & hardcoded background rectangles
+    // Clean outer SVG tags
     let cleanSvg = svg
-      .replace(/<\?xml.*?\?>/gi, "")
-      .replace(/<!--[\s\S]*?-->/g, "")
       .replace(/<svg[^>]*>/i, "")
       .replace(/<\/svg>/gi, "")
       .trim();
 
-    // Strip unwanted background <rect> elements (e.g. width="100%" or full bleed rectangles)
+    // Strip unwanted background <rect> elements
     cleanSvg = cleanSvg
       .replace(/<rect[^>]*width=["']100%["'][^>]*\/>/gi, "")
       .replace(/<rect[^>]*height=["']100%["'][^>]*\/>/gi, "")
       .replace(/<rect[^>]*width=["']100%["'][^>]*>.*?<\/rect>/gi, "");
 
-    // 3. Resolve dynamic fills for dark/light themes (currentColor & dark fills)
-    if (theme === "dark") {
-      cleanSvg = cleanSvg
-        .replace(/fill=["']currentColor["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#000000["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#000["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#222f3e["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#232f3e["']/gi, `fill="${iconFillColor}"`);
-    } else {
-      cleanSvg = cleanSvg
-        .replace(/fill=["']currentColor["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#ffffff["']/gi, `fill="${iconFillColor}"`)
-        .replace(/fill=["']#fff["']/gi, `fill="${iconFillColor}"`);
-    }
+    // Resolve dynamic fills strictly for currentColor
+    cleanSvg = cleanSvg.replace(/fill=["']currentColor["']/gi, `fill="${iconFillColor}"`);
 
-    // 4. Encapsulate in nested <svg> viewport with exact viewBox & xMidYMid meet centering
-    innerElements += `<svg x="${x}" y="${y}" width="${iconSize}" height="${iconSize}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet" fill="${iconFillColor}">${cleanSvg}</svg>`;
+    // Encapsulate in isolated nested SVG viewport
+    innerElements += `<svg x="${x}" y="${y}" width="${iconSize}" height="${iconSize}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet">${cleanSvg}</svg>`;
   });
 
   const finalSvg = `
@@ -164,8 +212,17 @@ export async function GET(req: NextRequest) {
 
   return new NextResponse(finalSvg, {
     headers: {
-      "Content-Type": "image/svg+xml",
-      "Cache-Control": "public, max-age=31536000, immutable",
+      ...SECURITY_HEADERS,
+      "X-RateLimit-Limit": "180",
+      "X-RateLimit-Remaining": rateLimit.remaining.toString(),
+      "X-RateLimit-Reset": rateLimit.reset.toString(),
     },
+  });
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: SECURITY_HEADERS,
   });
 }

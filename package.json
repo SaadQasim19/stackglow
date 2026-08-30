@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npx -y tsx src/lib/__tests__/security.test.ts"
   },
   "dependencies": {
     "next": "16.3.0",
