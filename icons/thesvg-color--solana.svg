@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+	<defs>
+		<linearGradient id="SVGxt833cyZ" x1="90.737%" x2="35.509%" y1="34.776%" y2="55.415%">
+			<stop offset="0%" stop-color="#00ffa3" />
+			<stop offset="100%" stop-color="#dc1fff" />
+		</linearGradient>
+		<linearGradient id="SVGV0fo9dgG" x1="66.588%" x2="11.36%" y1="43.8%" y2="64.439%">
+			<stop offset="0%" stop-color="#00ffa3" />
+			<stop offset="100%" stop-color="#dc1fff" />
+		</linearGradient>
+		<linearGradient id="SVGz4u3SdLM" x1="78.586%" x2="23.358%" y1="39.317%" y2="59.956%">
+			<stop offset="0%" stop-color="#00ffa3" />
+			<stop offset="100%" stop-color="#dc1fff" />
+		</linearGradient>
+	</defs>
+	<g fill="none">
+		<circle cx="18" cy="18" r="18" fill="#181e33" />
+		<path fill="url(#SVGxt833cyZ)" d="M3.9 14.355a.8.8 0 0 1 .554-.23h19.153c.35 0 .525.423.277.67l-3.783 3.784a.8.8 0 0 1-.555.23H.393a.392.392 0 0 1-.277-.67z" transform="translate(6 9)" />
+		<path fill="url(#SVGV0fo9dgG)" d="M3.9.23A.8.8 0 0 1 4.454 0h19.153c.35 0 .525.422.277.67l-3.783 3.783a.8.8 0 0 1-.555.23H.393a.392.392 0 0 1-.277-.67z" transform="translate(6 9)" />
+		<path fill="url(#SVGz4u3SdLM)" d="M20.1 7.247a.8.8 0 0 0-.554-.23H.393a.392.392 0 0 0-.277.67l3.783 3.784c.145.145.344.23.555.23h19.153c.35 0 .525-.423.277-.67z" transform="translate(6 9)" />
+	</g>
+</svg>

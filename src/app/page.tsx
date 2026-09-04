@@ -289,6 +289,7 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   next: ["frontend", "backend"],
   nextjs: ["frontend", "backend"],
   vue: ["frontend"],
+  vuejs: ["frontend"],
   svelte: ["frontend"],
   solidjs: ["frontend"],
   solid: ["frontend"],
@@ -317,6 +318,25 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   nuxt: ["frontend", "backend"],
   ember: ["frontend"],
   emberjs: ["frontend"],
+  angular: ["frontend"],
+  angularjs: ["frontend"],
+  redux: ["frontend"],
+  reduxobservable: ["frontend"],
+  "redux-observable": ["frontend"],
+  zustand: ["frontend"],
+  ngrx: ["frontend"],
+  ngrxactions: ["frontend"],
+  "ngrx-actions": ["frontend"],
+  ngrxeffects: ["frontend"],
+  "ngrx-effects": ["frontend"],
+  ngrxentity: ["frontend"],
+  "ngrx-entity": ["frontend"],
+  ngrxreducer: ["frontend"],
+  "ngrx-reducer": ["frontend"],
+  ngrxselectors: ["frontend"],
+  "ngrx-selectors": ["frontend"],
+  ngrxstate: ["frontend"],
+  "ngrx-state": ["frontend"],
 
   // Backend
   node: ["backend", "languages"],
@@ -345,6 +365,8 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   aspnet: ["backend"],
   "asp-net-core": ["backend"],
   firebase: ["backend", "devops-cloud"],
+  quarkus: ["backend", "languages"],
+  vertx: ["backend"],
 
   // AI, ML & Data
   pytorch: ["ai-ml"],
@@ -366,6 +388,10 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   openai: ["ai-ml"],
   claude: ["ai-ml"],
   matlab: ["ai-ml", "languages"],
+  databricks: ["ai-ml", "devops-cloud"],
+  earthengine: ["ai-ml", "devops-cloud"],
+  googleearthengine: ["ai-ml", "devops-cloud"],
+  "google-earth-engine": ["ai-ml", "devops-cloud"],
 
   // Database
   postgresql: ["database"],
@@ -384,6 +410,8 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   dgraph: ["database"],
   memcached: ["database"],
   prisma: ["database", "backend"],
+  milvus: ["database", "ai-ml"],
+  snowflake: ["database", "ai-ml"],
 
   // DevOps & Cloud
   docker: ["devops-cloud", "tools"],
@@ -411,6 +439,28 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   rabbitmq: ["devops-cloud", "backend"],
   fediverse: ["devops-cloud"],
   android: ["devops-cloud", "frontend"],
+  argocd: ["devops-cloud", "tools"],
+  argo: ["devops-cloud", "tools"],
+  dynatrace: ["devops-cloud", "tools"],
+  grafana: ["devops-cloud", "tools"],
+  jaeger: ["devops-cloud", "tools"],
+  jaegertracing: ["devops-cloud", "tools"],
+  opentelemetry: ["devops-cloud", "tools"],
+  otel: ["devops-cloud", "tools"],
+  podman: ["devops-cloud", "tools"],
+  prometheus: ["devops-cloud", "tools"],
+  pulumi: ["devops-cloud", "tools"],
+  terraform: ["devops-cloud", "tools"],
+  opentofu: ["devops-cloud", "tools"],
+  tofu: ["devops-cloud", "tools"],
+  datadog: ["devops-cloud", "tools"],
+  honeycomb: ["devops-cloud", "tools"],
+  nagios: ["devops-cloud", "tools"],
+  zabbix: ["devops-cloud", "tools"],
+  tekton: ["devops-cloud", "tools"],
+  gcp: ["devops-cloud"],
+  googlecloud: ["devops-cloud"],
+  gce: ["devops-cloud"],
 
   // Security
   kali: ["security"],
@@ -431,6 +481,18 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   solidity: ["security", "languages"],
   ethereum: ["security", "languages"],
   eth: ["security", "languages"],
+  ankr: ["security"],
+  anchor: ["security", "tools"],
+  bitcoin: ["security"],
+  btc: ["security"],
+  solana: ["security"],
+  sol: ["security"],
+  sui: ["security", "languages"],
+  reth: ["security", "languages"],
+  ethers: ["security", "frontend"],
+  ethersjs: ["security", "frontend"],
+  ganache: ["security", "tools"],
+  truffle: ["security", "tools"],
 
   // Languages
   javascript: ["languages", "frontend"],
@@ -451,6 +513,10 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   julia: ["languages", "ai-ml"],
   elixir: ["languages", "backend"],
   ocaml: ["languages"],
+  nim: ["languages"],
+  zig: ["languages"],
+  vyper: ["languages", "security"],
+  verilog: ["languages"],
 
   // Tools
   vscode: ["tools"],
@@ -465,6 +531,7 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
   leetcode: ["tools"],
   jest: ["frontend", "tools"],
   maven: ["devops-cloud", "tools"],
+  n8n: ["tools", "backend"],
 };
 
 export default function Home() {
@@ -473,14 +540,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<IconCategory>("all");
   const [siteTheme, setSiteTheme] = useState<"light" | "dark">("light");
   const [activeTab, setActiveTab] = useState<"all-icons" | "guide">("all-icons");
-  const [selectedQueue, setSelectedQueue] = useState<string[]>([
-    "react",
-    "typescript",
-    "nodejs",
-    "rust",
-    "docker",
-    "aws",
-  ]);
+  const [selectedQueue, setSelectedQueue] = useState<string[]>([]);
 
   // Combined Badge Customization Controls
   const [badgeMode, setBadgeMode] = useState<"combined" | "individual">("combined");
