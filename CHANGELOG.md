@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.3.0...stackglow-v0.4.0) (2026-09-04)
+
+
+### Features
+
+* add complete sample profile README with individual icon badges in Guide tab ([d2683cd](https://github.com/SaadQasim19/stackglow/commit/d2683cd09561057a81d18881396f5e207326cc52))
+* **icons:** add aliases, display names, and category mappings for 48 new icons ([0363b50](https://github.com/SaadQasim19/stackglow/commit/0363b50461b681f9e2a4364817d99c6caccd0839))
+
 ## [0.3.0](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.2.1...stackglow-v0.3.0) (2026-08-30)
 
 
