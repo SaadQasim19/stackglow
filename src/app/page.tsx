@@ -13,6 +13,157 @@ const DEFAULT_ICONS = [
   { id: "typescript", name: "TypeScript" },
 ];
 
+const SAMPLE_README_TEMPLATE = `<div align="center">
+  <h1>
+    <img src="https://readme-typing-svg.demolab.com?font=Chakra+Petch:wght@700&size=30&duration=4000&pause=1000&color=7F5AF0&center=true&vCenter=true&width=435&lines=Hi+%F0%9F%91%8B%2C+I'm+Saad+Qasim;Web+Developer;MERN+Stack+Specialist;Backend+Contributor" alt="Typing SVG" />
+  </h1>
+  <img src="https://komarev.com/ghpvc/?username=SaadQasim19&color=7F5AF0&style=flat-square&label=PROFILE+VIEWS" />
+</div>
+
+<p align="center">
+  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Dev Quote" width="100%"/>
+</p>
+
+## 📈 Contribution Activity
+
+<div align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=SaadQasim19&theme=react-dark&bg_color=0D1117&color=00D9FF&line=FF6B6B&point=FFFFFF&area=true&area_color=00D9FF" width="100%" />
+</div>
+
+## 🏆 GitHub Achievements
+
+<div align="center">
+  <a href="https://github.com/ryo-ma/github-profile-trophy">
+    <img src="https://github-profile-trophy.vercel.app/?username=SaadQasim19&theme=onedark&margin-w=15&column=5&margin-h=15&no-bg=true&no-frame=true" alt="GitHub Trophy"/>
+  </a>
+</div>
+
+## 🛠️ Technologies & Tools
+
+<div align="center">
+  
+**Frontend**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=javascript&theme=dark" height="70" alt="JavaScript" />
+  <img src="https://stackglow.vercel.app/api/icons?i=typescript&theme=dark" height="70" alt="TypeScript" />
+  <img src="https://stackglow.vercel.app/api/icons?i=react&theme=dark" height="70" alt="React" />
+  <img src="https://stackglow.vercel.app/api/icons?i=nextjs&theme=dark" height="70" alt="Next.js" />
+  <img src="https://stackglow.vercel.app/api/icons?i=html5&theme=dark" height="70" alt="HTML5" />
+  <img src="https://stackglow.vercel.app/api/icons?i=css&theme=dark" height="70" alt="CSS3" />
+</p>
+
+**Backend**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=nodejs&theme=dark" height="70" alt="Node.js" />
+  <img src="https://stackglow.vercel.app/api/icons?i=express&theme=dark" height="70" alt="Express" />
+  <img src="https://stackglow.vercel.app/api/icons?i=nestjs&theme=dark" height="70" alt="NestJS" />
+  <img src="https://stackglow.vercel.app/api/icons?i=graphql&theme=dark" height="70" alt="GraphQL" />
+</p>
+
+**DataBases**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=mongodb&theme=dark" height="70" alt="MongoDB" />
+  <img src="https://stackglow.vercel.app/api/icons?i=postgresql&theme=dark" height="70" alt="PostgreSQL" />
+  <img src="https://stackglow.vercel.app/api/icons?i=prisma&theme=dark" height="70" alt="Prisma" />
+</p>
+
+**Blockchain**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=solidity&theme=dark" height="70" alt="Solidity" />
+  <img src="https://stackglow.vercel.app/api/icons?i=hardhat&theme=dark" height="70" alt="Hardhat" />
+  <img src="https://stackglow.vercel.app/api/icons?i=foundry&theme=dark" height="70" alt="Foundry" />
+  <img src="https://stackglow.vercel.app/api/icons?i=ethereum&theme=dark" height="70" alt="Ethereum" />
+</p>
+
+**Lang / Tools Familiar With**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=python&theme=dark" height="70" alt="Python" />
+  <img src="https://stackglow.vercel.app/api/icons?i=java&theme=dark" height="70" alt="Java" />
+  <img src="https://stackglow.vercel.app/api/icons?i=php&theme=dark" height="70" alt="PHP" />
+  <img src="https://stackglow.vercel.app/api/icons?i=laravel&theme=dark" height="70" alt="Laravel" />
+  <img src="https://stackglow.vercel.app/api/icons?i=firebase&theme=dark" height="70" alt="Firebase" />
+</p>
+
+**Tools**
+
+<p align="center">
+  <img src="https://stackglow.vercel.app/api/icons?i=linux&theme=dark" height="70" alt="Linux" />
+  <img src="https://stackglow.vercel.app/api/icons?i=git&theme=dark" height="70" alt="Git" />
+  <img src="https://stackglow.vercel.app/api/icons?i=jest&theme=dark" height="70" alt="Jest" />
+  <img src="https://stackglow.vercel.app/api/icons?i=docker&theme=dark" height="70" alt="Docker" />
+  <img src="https://stackglow.vercel.app/api/icons?i=redis&theme=dark" height="70" alt="Redis" />
+  <img src="https://stackglow.vercel.app/api/icons?i=postman&theme=dark" height="70" alt="Postman" />
+  <img src="https://stackglow.vercel.app/api/icons?i=vscode&theme=dark" height="70" alt="VS Code" />
+</p>
+
+</div>
+
+## 🔥 Contribution Streaks
+
+<div align="center">
+  <img src="https://streak-stats.demolab.com?user=SaadQasim19&theme=radical&hide_border=true&mode=weekly&background=0D1117&border=00D9FF&stroke=00D9FF&ring=00D9FF&fire=FF6B6B&currStreakNum=FFFFFF&sideNums=FFFFFF&currStreakLabel=00D9FF&sideLabels=00D9FF" width="400" />
+  <img src="https://streak-stats.demolab.com?user=SaadQasim19&theme=radical&hide_border=true&mode=daily&background=0D1117&border=00D9FF&stroke=00D9FF&ring=00D9FF&fire=FF6B6B&currStreakNum=FFFFFF&sideNums=FFFFFF&currStreakLabel=00D9FF&sideLabels=00D9FF" width="400" />
+</div>
+
+## 📊 GitHub Analytics
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=SaadQasim19&show_icons=true&theme=nightowl&hide_border=true&bg_color=0D1117&title_color=7F5AF0&icon_color=FF9E64&text_color=FFFFFF&custom_title=Development+Activity" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SaadQasim19&layout=compact&theme=nightowl&hide_border=true&bg_color=0D1117&title_color=7F5AF0&text_color=FFFFFF&langs_count=8" />
+</div>
+
+## 🚀 About Me
+
+- 💻 **Skills:**  
+  - MERN Stack (MongoDB, Express, React, Node.js)  
+  - REST API Development, Scalable Architectures  
+  - Frontend: TypeScript, React.js, Next.js
+  - Backend: Node.js, NestJS, Express.js
+  - Other: Python, Java, Git, MySQL
+
+- 🎯 **Interests:**  
+  - Building efficient, responsive full-stack applications  
+  - Writing clean, maintainable backend services 
+
+- 🌱 **Currently Exploring:**  
+  - Machine Learning, Blockchain development
+
+## 💼 Professional Experience
+
+- 2 years of Full-stack Development using MERN Stack  
+- Responsive UI/UX with modern frontend libraries  
+- REST APIs & Real-time features  
+- Scalable Backends with MongoDB, MySQL
+
+## 🌟 Featured Projects
+
+- E-Commerce MERN Web App  
+- Prayer-Times MERN Web App
+- Realtime Gemini Clone
+- Weather App Dashboard
+- SecureBanking System
+- Microfinance Shariah Compliant Web App
+
+## 📬 Connect With Me
+
+<p align="center"> 
+  <a href="mailto:saad.merndev@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+  <a href="https://github.com/SaadQasim19">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
+  </a>
+</p>
+
+<p align="center"> 
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=14&duration=3000&pause=1000&color=7F5AF0&center=true&vCenter=true&width=435&lines=Turning+ideas+into+reality+through+code+%F0%9F%92%BB;Open+for+collaborations+%F0%9F%92%AC;Let's+build+something+amazing+%F0%9F%9A%80;Innovation+meets+execution+%E2%9C%A8" alt="Typing SVG" />
+</p>`;
+
 function ClipboardIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
     <svg
@@ -89,6 +240,7 @@ export default function Home() {
   const [badgeAlt, setBadgeAlt] = useState<string>("My Tech Stack");
   const [snippetFormat, setSnippetFormat] = useState<"markdown" | "html" | "url">("markdown");
   const [copiedSnippet, setCopiedSnippet] = useState(false);
+  const [copiedSampleReadme, setCopiedSampleReadme] = useState(false);
   const [previewCanvasTheme, setPreviewCanvasTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
@@ -197,6 +349,12 @@ export default function Home() {
     navigator.clipboard.writeText(generatedSnippet);
     setCopiedSnippet(true);
     setTimeout(() => setCopiedSnippet(false), 2000);
+  };
+
+  const copySampleReadme = () => {
+    navigator.clipboard.writeText(SAMPLE_README_TEMPLATE);
+    setCopiedSampleReadme(true);
+    setTimeout(() => setCopiedSampleReadme(false), 2000);
   };
 
   // Estimated Badge Grid Dimension Calculations
@@ -888,6 +1046,53 @@ export default function Home() {
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+
+              {/* Complete Sample GitHub Profile README */}
+              <div
+                className={`border rounded-xl p-6 space-y-4 ${
+                  siteTheme === "dark"
+                    ? "bg-neutral-950/60 border-neutral-800"
+                    : "bg-neutral-50/80 border-neutral-200"
+                }`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <h3 className="font-semibold font-mono text-cyan-500 text-base">
+                      Complete Sample Profile README.md
+                    </h3>
+                    <p className="text-xs text-neutral-500 mt-0.5">
+                      A ready-to-copy, full GitHub Profile README template equipped with StackGlow dynamic badges and stats widgets.
+                    </p>
+                  </div>
+                  <button
+                    onClick={copySampleReadme}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-all duration-150 cursor-pointer self-start sm:self-auto bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-neutral-950 shadow-md shadow-cyan-500/10"
+                    title="Copy full sample markdown template to clipboard"
+                  >
+                    {copiedSampleReadme ? (
+                      <>
+                        <CheckIcon className="w-3.5 h-3.5" /> Copied Markdown!
+                      </>
+                    ) : (
+                      <>
+                        <ClipboardIcon className="w-3.5 h-3.5" /> Copy Full Sample README
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="relative">
+                  <pre
+                    className={`p-4 rounded-lg font-mono text-xs overflow-x-auto max-h-96 border leading-relaxed select-all ${
+                      siteTheme === "dark"
+                        ? "bg-neutral-950 border-neutral-800 text-neutral-300"
+                        : "bg-white border-neutral-200 text-neutral-800"
+                    }`}
+                  >
+                    {SAMPLE_README_TEMPLATE}
+                  </pre>
                 </div>
               </div>
             </div>

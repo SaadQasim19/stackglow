@@ -151,6 +151,15 @@ export const ICON_ALIASES: Record<string, string> = {
   zap: "thesvg-color--zap",
   owaspzap: "thesvg-color--zap",
   hydra: "token--hydra",
+  android: "devicon--android",
+  fedora: "devicon--fedora",
+  vscode: "devicon--vscode",
+  kali: "selfhst--kali-linux",
+  kalilinux: "selfhst--kali-linux",
+  parrot: "thesvg-color--parrot-security",
+  parrotsec: "thesvg-color--parrot-security",
+  parrotsecurity: "thesvg-color--parrot-security",
+  linuxoriginal: "linux-original",
 };
 
 export function resolveIconName(query: string): string {

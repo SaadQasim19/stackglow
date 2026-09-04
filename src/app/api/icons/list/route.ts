@@ -201,6 +201,15 @@ export async function GET(req: NextRequest) {
       zap: "OWASP ZAP",
       owaspzap: "OWASP ZAP",
       hydra: "Hydra",
+      android: "Android",
+      fedora: "Fedora",
+      vscode: "VS Code",
+      kali: "Kali Linux",
+      "kali-linux": "Kali Linux",
+      parrot: "Parrot Security",
+      "parrot-security": "Parrot Security",
+      linuxoriginal: "Linux",
+      "linux-original": "Linux",
     };
 
     const iconsList: { id: string; name: string }[] = [];
