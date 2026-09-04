@@ -218,9 +218,259 @@ function ExternalLinkIcon({ className = "w-3 h-3" }: { className?: string }) {
   );
 }
 
+function SearchIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+function FilterIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  );
+}
+
+export type IconCategory =
+  | "all"
+  | "frontend"
+  | "backend"
+  | "ai-ml"
+  | "database"
+  | "devops-cloud"
+  | "security"
+  | "languages"
+  | "tools";
+
+interface CategoryMeta {
+  id: IconCategory;
+  label: string;
+  shortLabel: string;
+}
+
+const CATEGORIES: CategoryMeta[] = [
+  { id: "all", label: "All Categories", shortLabel: "All" },
+  { id: "frontend", label: "Frontend & UI", shortLabel: "Frontend" },
+  { id: "backend", label: "Backend & APIs", shortLabel: "Backend" },
+  { id: "ai-ml", label: "AI, ML & Data", shortLabel: "AI & ML" },
+  { id: "database", label: "Databases & Storage", shortLabel: "Databases" },
+  { id: "devops-cloud", label: "DevOps & Cloud", shortLabel: "DevOps & Cloud" },
+  { id: "security", label: "Cyber Security", shortLabel: "Security" },
+  { id: "languages", label: "Programming Languages", shortLabel: "Languages" },
+  { id: "tools", label: "Developer Tools", shortLabel: "Tools" },
+];
+
+const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
+  // Frontend
+  react: ["frontend"],
+  reactjs: ["frontend"],
+  next: ["frontend", "backend"],
+  nextjs: ["frontend", "backend"],
+  vue: ["frontend"],
+  svelte: ["frontend"],
+  solidjs: ["frontend"],
+  solid: ["frontend"],
+  astro: ["frontend"],
+  alpine: ["frontend"],
+  alpinejs: ["frontend"],
+  preact: ["frontend"],
+  htmx: ["frontend"],
+  lit: ["frontend"],
+  litjs: ["frontend"],
+  stencil: ["frontend"],
+  stenciljs: ["frontend"],
+  backbone: ["frontend"],
+  backbonejs: ["frontend"],
+  tailwind: ["frontend"],
+  tailwindcss: ["frontend"],
+  sass: ["frontend"],
+  scss: ["frontend"],
+  css: ["frontend", "languages"],
+  html: ["frontend", "languages"],
+  html5: ["frontend", "languages"],
+  figma: ["frontend", "tools"],
+  flutter: ["frontend"],
+  jquery: ["frontend"],
+  emotion: ["frontend"],
+  nuxt: ["frontend", "backend"],
+  ember: ["frontend"],
+  emberjs: ["frontend"],
+
+  // Backend
+  node: ["backend", "languages"],
+  nodejs: ["backend", "languages"],
+  express: ["backend"],
+  expressjs: ["backend"],
+  nest: ["backend"],
+  nestjs: ["backend"],
+  fastapi: ["backend"],
+  django: ["backend"],
+  spring: ["backend"],
+  springboot: ["backend"],
+  laravel: ["backend"],
+  symfony: ["backend"],
+  fastify: ["backend"],
+  gin: ["backend"],
+  ginionic: ["backend"],
+  phoenix: ["backend"],
+  graphql: ["backend"],
+  postman: ["backend", "tools"],
+  cakephp: ["backend"],
+  codeigniter: ["backend"],
+  hapi: ["backend"],
+  hapijs: ["backend"],
+  tornado: ["backend"],
+  aspnet: ["backend"],
+  "asp-net-core": ["backend"],
+  firebase: ["backend", "devops-cloud"],
+
+  // AI, ML & Data
+  pytorch: ["ai-ml"],
+  tensorflow: ["ai-ml"],
+  tf: ["ai-ml"],
+  keras: ["ai-ml"],
+  scikitlearn: ["ai-ml"],
+  sklearn: ["ai-ml"],
+  pandas: ["ai-ml"],
+  numpy: ["ai-ml"],
+  seaborn: ["ai-ml"],
+  polars: ["ai-ml"],
+  jupyter: ["ai-ml", "tools"],
+  jupyterlab: ["ai-ml", "tools"],
+  streamlit: ["ai-ml"],
+  opencv: ["ai-ml"],
+  langchain: ["ai-ml"],
+  tableau: ["ai-ml", "tools"],
+  openai: ["ai-ml"],
+  claude: ["ai-ml"],
+  matlab: ["ai-ml", "languages"],
+
+  // Database
+  postgresql: ["database"],
+  postgres: ["database"],
+  mongodb: ["database"],
+  mongo: ["database"],
+  redis: ["database"],
+  mysql: ["database"],
+  dynamodb: ["database"],
+  cassandra: ["database"],
+  apachecassandra: ["database"],
+  couchbase: ["database"],
+  couchdb: ["database"],
+  influxdb: ["database"],
+  neo4j: ["database"],
+  dgraph: ["database"],
+  memcached: ["database"],
+  prisma: ["database", "backend"],
+
+  // DevOps & Cloud
+  docker: ["devops-cloud", "tools"],
+  kubernetes: ["devops-cloud"],
+  k8s: ["devops-cloud"],
+  aws: ["devops-cloud"],
+  amazon: ["devops-cloud"],
+  azure: ["devops-cloud"],
+  cloudflare: ["devops-cloud"],
+  git: ["devops-cloud", "tools"],
+  gitlab: ["devops-cloud", "tools"],
+  linux: ["devops-cloud"],
+  linuxoriginal: ["devops-cloud"],
+  ubuntu: ["devops-cloud"],
+  fedora: ["devops-cloud"],
+  arch: ["devops-cloud"],
+  archlinux: ["devops-cloud"],
+  redhat: ["devops-cloud"],
+  rhel: ["devops-cloud"],
+  hadoop: ["devops-cloud", "ai-ml"],
+  flink: ["devops-cloud", "ai-ml"],
+  apacheflink: ["devops-cloud", "ai-ml"],
+  jenkins: ["devops-cloud", "tools"],
+  openstack: ["devops-cloud"],
+  rabbitmq: ["devops-cloud", "backend"],
+  fediverse: ["devops-cloud"],
+  android: ["devops-cloud", "frontend"],
+
+  // Security
+  kali: ["security"],
+  kalilinux: ["security"],
+  parrot: ["security"],
+  parrotsecurity: ["security"],
+  burp: ["security", "tools"],
+  burpsuite: ["security", "tools"],
+  wireshark: ["security", "tools"],
+  ghidra: ["security", "tools"],
+  hashcat: ["security", "tools"],
+  zap: ["security", "tools"],
+  owaspzap: ["security", "tools"],
+  shodan: ["security", "tools"],
+  hydra: ["security", "tools"],
+  hardhat: ["security", "languages"],
+  foundry: ["security", "languages"],
+  solidity: ["security", "languages"],
+  ethereum: ["security", "languages"],
+  eth: ["security", "languages"],
+
+  // Languages
+  javascript: ["languages", "frontend"],
+  js: ["languages", "frontend"],
+  typescript: ["languages", "frontend"],
+  ts: ["languages", "frontend"],
+  python: ["languages", "ai-ml", "backend"],
+  rust: ["languages", "backend"],
+  go: ["languages", "backend"],
+  golang: ["languages", "backend"],
+  java: ["languages", "backend"],
+  csharp: ["languages", "backend"],
+  cpp: ["languages"],
+  php: ["languages", "backend"],
+  ruby: ["languages", "backend"],
+  kotlin: ["languages", "devops-cloud"],
+  swift: ["languages"],
+  julia: ["languages", "ai-ml"],
+  elixir: ["languages", "backend"],
+  ocaml: ["languages"],
+
+  // Tools
+  vscode: ["tools"],
+  blender: ["tools"],
+  ableton: ["tools"],
+  replit: ["tools"],
+  latex: ["tools"],
+  misskey: ["tools"],
+  bevy: ["tools"],
+  gdg: ["tools"],
+  google: ["tools"],
+  leetcode: ["tools"],
+  jest: ["frontend", "tools"],
+  maven: ["devops-cloud", "tools"],
+};
+
 export default function Home() {
   const [iconsList, setIconsList] = useState<{ id: string; name: string }[]>(DEFAULT_ICONS);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<IconCategory>("all");
   const [siteTheme, setSiteTheme] = useState<"light" | "dark">("light");
   const [activeTab, setActiveTab] = useState<"all-icons" | "guide">("all-icons");
   const [selectedQueue, setSelectedQueue] = useState<string[]>([
@@ -265,13 +515,45 @@ export default function Home() {
     }
   }, [siteTheme]);
 
+  const categoryCounts = useMemo(() => {
+    const counts: Record<IconCategory, number> = {
+      all: iconsList.length,
+      frontend: 0,
+      backend: 0,
+      "ai-ml": 0,
+      database: 0,
+      "devops-cloud": 0,
+      security: 0,
+      languages: 0,
+      tools: 0,
+    };
+
+    iconsList.forEach((icon) => {
+      const cats = ICON_CATEGORY_MAP[icon.id.toLowerCase()] || ["tools"];
+      cats.forEach((cat) => {
+        if (counts[cat] !== undefined) {
+          counts[cat]++;
+        }
+      });
+    });
+
+    return counts;
+  }, [iconsList]);
+
   const filteredIcons = useMemo(() => {
-    return iconsList.filter(
-      (icon) =>
+    return iconsList.filter((icon) => {
+      const matchesSearch =
+        searchQuery.trim() === "" ||
         icon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        icon.id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [iconsList, searchQuery]);
+        icon.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const categories = ICON_CATEGORY_MAP[icon.id.toLowerCase()] || ["tools"];
+      const matchesCategory =
+        selectedCategory === "all" || categories.includes(selectedCategory);
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [iconsList, searchQuery, selectedCategory]);
 
   const origin = useSyncExternalStore(
     () => () => {},
@@ -864,31 +1146,95 @@ export default function Home() {
 
             {/* ICONS GALLERY SECTION */}
             <div className="space-y-6">
-              {/* Heading & Search Bar */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h2
-                    className={`text-2xl md:text-3xl font-bold tracking-tight ${
-                      siteTheme === "dark" ? "text-neutral-100" : "text-neutral-900"
-                    }`}
-                  >
-                    Icon Catalog
-                  </h2>
-                  <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                    Click icons to toggle them in or out of your active badge generator queue.
-                  </p>
+              {/* Heading & Search / Filter Controls */}
+              <div className="space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <h2
+                        className={`text-2xl md:text-3xl font-bold tracking-tight ${
+                          siteTheme === "dark" ? "text-neutral-100" : "text-neutral-900"
+                        }`}
+                      >
+                        Icon Catalog
+                      </h2>
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border ${
+                          siteTheme === "dark"
+                            ? "bg-neutral-900 border-neutral-800 text-cyan-400"
+                            : "bg-neutral-100 border-neutral-200 text-cyan-700"
+                        }`}
+                      >
+                        {filteredIcons.length} {filteredIcons.length === 1 ? "icon" : "icons"}
+                      </span>
+                    </div>
+                    <p className="text-xs md:text-sm text-neutral-500 mt-1">
+                      Browse and filter {iconsList.length}+ curated developer icons
+                      {selectedCategory !== "all" && (
+                        <span> • Filtered by <span className="text-cyan-400 font-semibold">{CATEGORIES.find(c => c.id === selectedCategory)?.label}</span></span>
+                      )}
+                      {searchQuery && (
+                        <span> • Matching &quot;{searchQuery}&quot;</span>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Combined Search + Dropdown Filter Bar */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto">
+                    {/* Functional Category Dropdown */}
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                        <FilterIcon className="w-3.5 h-3.5" />
+                      </div>
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value as IconCategory)}
+                        className={`appearance-none rounded-lg pl-8 pr-8 py-2 text-xs font-mono font-medium focus:outline-none cursor-pointer border transition-all w-full sm:w-auto ${
+                          siteTheme === "dark"
+                            ? "bg-neutral-950 border-neutral-800 text-neutral-200 hover:border-neutral-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            : "bg-neutral-50 border-neutral-200 text-neutral-800 hover:border-neutral-300 focus:border-cyan-600 focus:ring-1 focus:ring-cyan-600"
+                        }`}
+                        title="Filter by technology category"
+                      >
+                        {CATEGORIES.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.label} ({categoryCounts[cat.id] ?? 0})
+                          </option>
+                        ))}
+                      </select>
+                      <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 text-[10px]">
+                        ▼
+                      </span>
+                    </div>
+
+                    {/* Search Field with Instant Clear Button */}
+                    <div className="relative flex-1 sm:w-64">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400">
+                        <SearchIcon className="w-3.5 h-3.5" />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={`Search ${iconsList.length}+ icons...`}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className={`border rounded-lg pl-8 pr-8 py-2 text-xs font-mono focus:outline-none w-full transition-all ${
+                          siteTheme === "dark"
+                            ? "bg-neutral-950 border-neutral-800 text-neutral-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 placeholder-neutral-600"
+                            : "bg-neutral-50 border-neutral-200 text-neutral-900 focus:border-cyan-600 focus:ring-1 focus:ring-cyan-600 placeholder-neutral-400"
+                        }`}
+                      />
+                      {searchQuery && (
+                        <button
+                          onClick={() => setSearchQuery("")}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 text-xs cursor-pointer p-0.5 transition-colors"
+                          title="Clear search"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  placeholder={`Search ${iconsList.length}+ icons...`}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`border rounded-lg px-3.5 py-2 text-xs font-mono focus:outline-none w-full sm:w-64 ${
-                    siteTheme === "dark"
-                      ? "bg-neutral-950 border-neutral-800 text-neutral-200 focus:border-cyan-500"
-                      : "bg-neutral-50 border-neutral-200 text-neutral-900 focus:border-cyan-600"
-                  }`}
-                />
               </div>
 
               {/* Icons Display */}
@@ -947,8 +1293,44 @@ export default function Home() {
               </div>
 
               {filteredIcons.length === 0 && (
-                <div className="text-center py-12 text-xs font-mono text-neutral-500 border border-dashed rounded-xl">
-                  No icons found matching &quot;{searchQuery}&quot;
+                <div
+                  className={`text-center py-16 px-4 space-y-4 border border-dashed rounded-2xl ${
+                    siteTheme === "dark" ? "border-neutral-800 bg-neutral-950/40" : "border-neutral-300 bg-neutral-50/50"
+                  }`}
+                >
+                  <p className="text-sm font-mono text-neutral-400">
+                    No icons found matching &quot;<span className="text-cyan-400">{searchQuery}</span>&quot; in{" "}
+                    <span className="font-semibold text-neutral-300">
+                      {CATEGORIES.find((c) => c.id === selectedCategory)?.label}
+                    </span>
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="text-xs font-mono px-3 py-1.5 rounded-lg border border-neutral-700 hover:border-neutral-500 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                      >
+                        Clear Search Query
+                      </button>
+                    )}
+                    {selectedCategory !== "all" && (
+                      <button
+                        onClick={() => setSelectedCategory("all")}
+                        className="text-xs font-mono px-3 py-1.5 rounded-lg border border-neutral-700 hover:border-neutral-500 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                      >
+                        Show All Categories
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSelectedCategory("all");
+                      }}
+                      className="text-xs font-mono px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-neutral-950 font-semibold transition-colors cursor-pointer"
+                    >
+                      Reset All Filters
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
