@@ -7,16 +7,27 @@ interface RateLimitRecord {
 
 // In-memory cache for sliding-window rate tracking
 const rateLimitMap = new Map<string, RateLimitRecord>();
+const MAX_RATE_LIMIT_RECORDS = 10000;
+
+function pruneExpiredRecords(now: number) {
+  for (const [key, record] of rateLimitMap.entries()) {
+    if (now > record.resetTime) {
+      rateLimitMap.delete(key);
+    }
+  }
+  // Enforce absolute memory cap against IP spoofing / memory floods
+  if (rateLimitMap.size > MAX_RATE_LIMIT_RECORDS) {
+    const keysToDelete = Array.from(rateLimitMap.keys()).slice(0, 2000);
+    for (const key of keysToDelete) {
+      rateLimitMap.delete(key);
+    }
+  }
+}
 
 // Cleanup expired records every 5 minutes to prevent memory growth
 if (typeof setInterval !== "undefined") {
   setInterval(() => {
-    const now = Date.now();
-    for (const [key, record] of rateLimitMap.entries()) {
-      if (now > record.resetTime) {
-        rateLimitMap.delete(key);
-      }
-    }
+    pruneExpiredRecords(Date.now());
   }, 5 * 60 * 1000);
 }
 
