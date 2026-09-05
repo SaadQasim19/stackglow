@@ -10,10 +10,16 @@ import {
 } from "@/lib/security";
 import { sanitizeSvgContent } from "@/lib/svg-sanitizer";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import {
+  ICON_DIR,
+  SVG_SECURITY_HEADERS,
+  DEFAULT_RATE_LIMIT,
+  DEFAULT_RATE_WINDOW_MS,
+  MAX_ICONS_PER_REQUEST,
+  MAX_URI_LENGTH,
+} from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
-
-const ICON_DIR = path.join(process.cwd(), "icons");
 
 function getLocalIconSvg(name: string): string | null {
   const cleanName = name.trim().toLowerCase();
@@ -71,21 +77,11 @@ function getLocalIconSvg(name: string): string | null {
   return null;
 }
 
-const SECURITY_HEADERS = {
-  "Content-Type": "image/svg+xml; charset=utf-8",
-  "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
-  "Cache-Control": "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400",
-  "Vary": "Accept-Encoding",
-};
+const SECURITY_HEADERS = SVG_SECURITY_HEADERS;
 
 export async function GET(req: NextRequest) {
   // 1. Rate Limiting Protection (DoS / Scraping defense)
-  const rateLimit = checkRateLimit(req, 180, 60 * 1000);
+  const rateLimit = checkRateLimit(req, DEFAULT_RATE_LIMIT, DEFAULT_RATE_WINDOW_MS);
   if (!rateLimit.allowed) {
     return new NextResponse(
       `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="60" viewBox="0 0 320 60"><rect width="100%" height="100%" rx="8" fill="#1e1e2e"/><text x="16" y="36" fill="#f38ba8" font-family="monospace" font-size="13">429: Too Many Requests (Rate Limited)</text></svg>`,
@@ -94,7 +90,7 @@ export async function GET(req: NextRequest) {
         headers: {
           ...SECURITY_HEADERS,
           "Retry-After": rateLimit.reset.toString(),
-          "X-RateLimit-Limit": "180",
+          "X-RateLimit-Limit": DEFAULT_RATE_LIMIT.toString(),
           "X-RateLimit-Remaining": "0",
           "X-RateLimit-Reset": rateLimit.reset.toString(),
         },
@@ -103,7 +99,7 @@ export async function GET(req: NextRequest) {
   }
 
   // 2. URI Length Validation (Buffer Overflow / ReDoS defense)
-  if (req.url.length > 4096) {
+  if (req.url.length > MAX_URI_LENGTH) {
     return new NextResponse(
       `<svg xmlns="http://www.w3.org/2000/svg" width="260" height="50"><text x="10" y="30" fill="red" font-family="monospace">414: URI Too Long</text></svg>`,
       { status: 414, headers: SECURITY_HEADERS }
@@ -118,7 +114,7 @@ export async function GET(req: NextRequest) {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean)
-    .slice(0, 50); // Hard cap at maximum 50 icons per combined badge
+    .slice(0, MAX_ICONS_PER_REQUEST);
 
   if (iconNames.length === 0) {
     return new NextResponse(
@@ -213,7 +209,7 @@ export async function GET(req: NextRequest) {
   return new NextResponse(finalSvg, {
     headers: {
       ...SECURITY_HEADERS,
-      "X-RateLimit-Limit": "180",
+      "X-RateLimit-Limit": DEFAULT_RATE_LIMIT.toString(),
       "X-RateLimit-Remaining": rateLimit.remaining.toString(),
       "X-RateLimit-Reset": rateLimit.reset.toString(),
     },

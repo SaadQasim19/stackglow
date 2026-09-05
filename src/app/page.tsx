@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useSyncExternalStore } from "react";
 import Navbar from "@/components/Navbar";
 import { escapeHtmlAttr } from "@/lib/security";
 
-const DEFAULT_ICONS = [
+const FALLBACK_ICONS = [
   { id: "gdg", name: "GDG Logo" },
   { id: "hardhat", name: "Hardhat" },
   { id: "mongodb", name: "MongoDB" },
@@ -535,7 +535,7 @@ const ICON_CATEGORY_MAP: Record<string, IconCategory[]> = {
 };
 
 export default function Home() {
-  const [iconsList, setIconsList] = useState<{ id: string; name: string }[]>(DEFAULT_ICONS);
+  const [iconsList, setIconsList] = useState<{ id: string; name: string }[]>(FALLBACK_ICONS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<IconCategory>("all");
   const [siteTheme, setSiteTheme] = useState<"light" | "dark">("light");

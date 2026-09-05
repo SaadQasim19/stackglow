@@ -8,6 +8,31 @@
  * - Executable embedded objects (<foreignObject>, <script>, <embed>, <iframe>, <object>, <animate>, <set>)
  * - Inline DOM event listeners (onload, onerror, onclick, onbegin, onend, etc.)
  */
+
+/** Tags stripped during sanitization — allocated once at module load. */
+const DANGEROUS_TAGS = [
+  "script",
+  "foreignObject",
+  "foreignobject",
+  "embed",
+  "object",
+  "iframe",
+  "applet",
+  "meta",
+  "link",
+  "base",
+  "animate",
+  "set",
+  "handler",
+  "listener",
+  "audio",
+  "video",
+  "form",
+  "input",
+  "button",
+  "textarea",
+] as const;
+
 export function sanitizeSvgContent(rawSvg: string): string {
   if (!rawSvg || typeof rawSvg !== "string") {
     return "";
@@ -29,30 +54,7 @@ export function sanitizeSvgContent(rawSvg: string): string {
       .replace(/<!--[\s\S]*?-->/g, ""); // Strip comments
 
     // 2. Strip dangerous executable, animation and embedding tags
-    const dangerousTags = [
-      "script",
-      "foreignObject",
-      "foreignobject",
-      "embed",
-      "object",
-      "iframe",
-      "applet",
-      "meta",
-      "link",
-      "base",
-      "animate",
-      "set",
-      "handler",
-      "listener",
-      "audio",
-      "video",
-      "form",
-      "input",
-      "button",
-      "textarea",
-    ];
-
-    for (const tag of dangerousTags) {
+    for (const tag of DANGEROUS_TAGS) {
       const blockRegex = new RegExp(`<${tag}\\b[\\s\\S]*?<\\/${tag}>`, "gi");
       const selfClosingRegex = new RegExp(`<${tag}\\b[^>]*\\/?>`, "gi");
       cleaned = cleaned.replace(blockRegex, "").replace(selfClosingRegex, "");

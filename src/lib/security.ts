@@ -1,5 +1,8 @@
 import path from "path";
 
+/** Pre-compiled regex: only lowercase/uppercase alphanumeric, hyphens, and underscores. */
+const SLUG_REGEX = /^[a-zA-Z0-9_-]+$/;
+
 /**
  * Validates that an icon slug contains only safe, alphanumeric characters, hyphens, and underscores.
  * Disallows path traversal sequences (../), slashes, null bytes, and control characters.
@@ -9,8 +12,7 @@ export function isValidIconSlug(slug: string): boolean {
   if (!slug || typeof slug !== "string") return false;
   const trimmed = slug.trim();
   if (trimmed.length === 0 || trimmed.length > 64) return false;
-  // Strictly allow lowercase/uppercase alphanumeric, hyphens, and underscores
-  return /^[a-zA-Z0-9_-]+$/.test(trimmed);
+  return SLUG_REGEX.test(trimmed);
 }
 
 /**
