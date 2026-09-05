@@ -64,7 +64,11 @@ export function sanitizeSvgContent(rawSvg: string): string {
 
     // 4. Strip dangerous URI protocols in href, xlink:href, src, data, and action attributes
     cleaned = cleaned.replace(
-      /\s+(?:xlink:)?(?:href|src|data|action)\s*=\s*(['"])\s*(?:javascript|vbscript|data\s*:\s*text\/html|data\s*:\s*image\/svg\+xml|file):[\s\S]*?\1/gi,
+      /\s+(?:[a-zA-Z0-9_-]+:)?(?:href|src|data|action)\s*=\s*(['"])\s*(?:javascript\s*:|vbscript\s*:|file\s*:|data\s*:\s*(?:text\/(?:html|xml|plain)|image\/svg\+xml|application\/[^\s'"]*))[\s\S]*?\1/gi,
+      ""
+    );
+    cleaned = cleaned.replace(
+      /\s+(?:[a-zA-Z0-9_-]+:)?(?:href|src|data|action)\s*=\s*(?:javascript\s*:|vbscript\s*:|file\s*:|data\s*:\s*(?:text\/(?:html|xml|plain)|image\/svg\+xml|application\/[^\s>]*))[^\s>]*/gi,
       ""
     );
 

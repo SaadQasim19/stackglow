@@ -133,6 +133,45 @@ assert("Allows requests up to defined limit", rlPassed);
 assert("Blocks requests exceeding defined limit (429)", !blockedResult.allowed && blockedResult.remaining === 0);
 
 // -------------------------------------------------------------
+// 7. ADVERSARIAL EVASION & OBFUSCATED PAYLOAD TESTS
+// -------------------------------------------------------------
+console.log("\n▶ 7. Adversarial Evasion & Multi-Pass Convergence Tests");
+
+const nestedScriptPayload = `<svg><scr<script>ipt>alert("nested")</script></svg>`;
+const cleanNested = sanitizeSvgContent(nestedScriptPayload);
+assert("Neutralizes nested <scr<script>ipt> evasion", !cleanNested.includes("script") && !cleanNested.includes("alert"));
+
+const mixedCaseScript = `<svg><sCrIpT>alert("casing")</ScRiPt></svg>`;
+const cleanMixedCase = sanitizeSvgContent(mixedCaseScript);
+assert("Neutralizes mixed-case <sCrIpT> payloads", !cleanMixedCase.toLowerCase().includes("script"));
+
+const animateHijack = `<svg><animate attributeName="href" values="javascript:alert(1)"/></svg>`;
+const cleanAnimate = sanitizeSvgContent(animateHijack);
+assert("Strips dangerous <animate> attribute hijacks", !cleanAnimate.includes("animate") && !cleanAnimate.includes("javascript:"));
+
+const setHijack = `<svg><set attributeName="xlink:href" to="javascript:alert(1)"/></svg>`;
+const cleanSet = sanitizeSvgContent(setHijack);
+assert("Strips dangerous <set> attribute hijacks", !cleanSet.includes("set") && !cleanSet.includes("javascript:"));
+
+const formPhishPayload = `<svg><form action="https://phishing.com"><input type="text" name="pw"/></form></svg>`;
+const cleanForm = sanitizeSvgContent(formPhishPayload);
+assert("Strips embedded <form> and <input> phishing elements", !cleanForm.includes("<form") && !cleanForm.includes("<input"));
+
+const dataHtmlPayload = `<svg><a xlink:href="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="><text>link</text></a></svg>`;
+const cleanDataHtml = sanitizeSvgContent(dataHtmlPayload);
+assert("Strips data:text/html executable payloads", !cleanDataHtml.includes("data:text/html"));
+
+// -------------------------------------------------------------
+// 8. PARAMETER EXTREMES & INTEGER OVERFLOW FUZZING
+// -------------------------------------------------------------
+console.log("\n▶ 8. Parameter Extremes & Integer Overflow Fuzzing");
+
+assert("Handles massive string length safely without NaN crash", sanitizeNumericParam("9".repeat(100), 70, 16, 256) === 256);
+assert("Handles negative sign overflow safely", sanitizeNumericParam("-" + "9".repeat(100), 70, 16, 256) === 16);
+assert("Handles float strings by integer conversion and clamping", sanitizeNumericParam("45.89", 70, 16, 256) === 45);
+assert("Handles special characters in numeric inputs", sanitizeNumericParam("70px; DROP TABLE", 70, 16, 256) === 70);
+
+// -------------------------------------------------------------
 // SUMMARY
 // -------------------------------------------------------------
 console.log("\n=============================================================");
