@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.4.0...stackglow-v0.4.1) (2026-09-05)
+
+
+### Bug Fixes
+
+* **security:** resolve data:text/html URI regex sanitization ([8b7e8c3](https://github.com/SaadQasim19/stackglow/commit/8b7e8c31aae1f4843bfd7ee6e9d874d1d3f595da))
+
 ## [0.4.0](https://github.com/SaadQasim19/stackglow/compare/stackglow-v0.3.0...stackglow-v0.4.0) (2026-09-04)
 
 
