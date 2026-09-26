@@ -26,9 +26,12 @@ function pruneExpiredRecords(now: number) {
 
 // Cleanup expired records every 5 minutes to prevent memory growth
 if (typeof setInterval !== "undefined") {
-  setInterval(() => {
+  const cleanupTimer = setInterval(() => {
     pruneExpiredRecords(Date.now());
   }, 5 * 60 * 1000);
+  if (cleanupTimer && typeof cleanupTimer.unref === "function") {
+    cleanupTimer.unref();
+  }
 }
 
 /**

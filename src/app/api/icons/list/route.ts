@@ -255,6 +255,14 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   datadog: "Datadog",
   opentofu: "OpenTofu",
   tofu: "OpenTofu",
+  doctrine: "Doctrine",
+  nhibernate: "NHibernate",
+  sequelize: "Sequelize",
+  typeorm: "TypeORM",
+  vitess: "Vitess",
+  etcd: "etcd",
+  etcdcluster: "etcd Cluster",
+  "etcd-cluster": "etcd Cluster",
 };
 
 export async function GET(req: NextRequest) {

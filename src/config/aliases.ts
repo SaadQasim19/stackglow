@@ -232,6 +232,14 @@ export const ICON_ALIASES: Record<string, string> = {
   datadog: "vscode-icons--file-type-datadog",
   opentofu: "vscode-icons--file-type-opentofu",
   tofu: "vscode-icons--file-type-opentofu",
+  doctrine: "devicon--doctrine",
+  nhibernate: "devicon--nhibernate",
+  sequelize: "devicon--sequelize",
+  typeorm: "devicon--typeorm",
+  vitess: "devicon--vitess",
+  etcd: "k8s--etcd-cluster",
+  etcdcluster: "k8s--etcd-cluster",
+  "etcd-cluster": "k8s--etcd-cluster",
 };
 
 export function resolveIconName(query: string): string {

@@ -180,6 +180,5 @@ console.log(`✅ PASSED: ${passedCount}`);
 console.log(`❌ FAILED: ${failedCount}`);
 console.log("=============================================================\n");
 
-if (failedCount > 0) {
-  process.exit(1);
-}
+process.exit(failedCount > 0 ? 1 : 0);
+
